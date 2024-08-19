@@ -1,1 +1,1 @@
-Bweno is a great app.
+Guia is a great app.
