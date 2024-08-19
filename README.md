@@ -1,1 +1,1 @@
-Guia is a great app.
+Guia is a superb app.
