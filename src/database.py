@@ -3,9 +3,9 @@ import os
 import shutil
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
-from get_embedding_function import get_embedding_function
+from get_embeddings_function import get_embedding_function
 from langchain_community.document_loaders import PyPDFDirectoryLoader, WebBaseLoader
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 
 
 CHROMA_PATH = "chroma"
@@ -59,7 +59,7 @@ def add_to_chroma(chunks: list[Document]):
     """Add new document chunks to the Chroma database."""
     db = Chroma(
         persist_directory=CHROMA_PATH,
-        embedding_function=get_embedding_function("ollama")
+        embedding_function=get_embedding_function("nomic")
     )
 
     chunks_with_ids = calculate_chunk_ids(chunks)

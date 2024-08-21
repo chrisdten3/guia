@@ -1,6 +1,7 @@
 from langchain_community.embeddings.ollama import OllamaEmbeddings
 from langchain_community.embeddings.bedrock import BedrockEmbeddings
 from langchain_openai import OpenAIEmbeddings
+from langchain_nomic import NomicEmbeddings
 
 def get_embedding_function(embeddingType: str):
     """Returns an instance of the embedding class based on the embeddingType."""
@@ -8,7 +9,8 @@ def get_embedding_function(embeddingType: str):
     embedding_map = {
         'bedrock': BedrockEmbeddings,
         'ollama': OllamaEmbeddings,
-        'openai': OpenAIEmbeddings
+        'openai': OpenAIEmbeddings,
+        'nomic':NomicEmbeddings
     }
 
     # Check if the provided embeddingType is valid
@@ -22,3 +24,8 @@ def get_embedding_function(embeddingType: str):
         return embedding_map[embeddingType](model="nomic-embed-text")
     elif embeddingType == 'openai':
         return embedding_map[embeddingType]()
+    elif embeddingType == 'nomic':
+        return embedding_map[embeddingType](model="nomic-embed-text-v1.5", inference_mode="local")
+
+
+
