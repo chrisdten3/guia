@@ -17,5 +17,5 @@
 		Some resources if you decide to use the Instructor-XL model:"
 
 - Open AI text-embedding-ada-002
-- https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
+	https://platform.openai.com/docs/guides/embeddings/what-are-embeddings
 	- Comments: "Looking at the top of the results, the clear best performing model is the OpenAI text-embedding-ada-002, with an average of 0.821, nearly 3 points higher then the next best performing model GTE-Large with a score of 0.784"
