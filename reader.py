@@ -3,7 +3,7 @@ import json
 import argparse
 
 # Replace 'YOUR_GITHUB_TOKEN' with your actual GitHub personal access token
-GITHUB_TOKEN = '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'
+GITHUB_TOKEN = #access token
 
 def get_repo_files_with_content(owner, repo, path=""):
     url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
