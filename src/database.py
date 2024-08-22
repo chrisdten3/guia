@@ -6,6 +6,7 @@ from langchain.schema.document import Document
 from get_embeddings_function import get_embedding_function
 from langchain_community.document_loaders import PyPDFDirectoryLoader, WebBaseLoader
 from langchain_chroma import Chroma
+import json
 
 
 CHROMA_PATH = "chroma"
@@ -21,9 +22,47 @@ def main():
         print("✨ Resetting database...")
         clear_database()
 
-    documents = load_documents(args.urls)
+    #documents = load_documents(args.urls)
+    documents = load_documents_from_json("test_repo_content.json")
     chunks = split_documents(documents)
     add_to_chroma(chunks)
+
+def load_documents_from_json(json_file: str) -> list[Document]:
+    """Load JSON documents from a JSON file and convert them to LangChain Document objects."""
+    documents = []
+    print(f"Loading documents from {json_file}...")
+
+    try:
+        with open(json_file, 'r') as f:
+            data = json.load(f)
+        
+        # Ensure the data is a list of repository entries
+        if isinstance(data, list):
+            for entry in data:
+                repo_url = entry.get('repository_url')
+                files = entry.get('files', [])
+                
+                for file_info in files:
+                    document = Document(
+                        page_content=file_info.get('content'),
+                        metadata={
+                            'file_name': file_info.get('file_name'),
+                            'document_type': file_info.get('document_type'),
+                            'file_url': file_info.get('file_url'),
+                            'repository_url': repo_url
+                        }
+                    )
+                    documents.append(document)
+            return documents
+        else:
+            print(f"Unexpected JSON structure: {data}")
+
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+    except FileNotFoundError:
+        print(f"File not found: {json_file}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def load_documents(urls: list[str] = None) -> list[Document]:
     """Load PDF documents from a directory and optionally from URLs."""

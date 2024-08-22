@@ -1,0 +1,47 @@
+[
+    {
+        "repository_url": "https://github.com/idurar/idurar-erp-crm",
+        "files": [
+            {
+                "file_name": "README.md",
+                "document_type": "md",
+                "content": "# ERP CRM\n\nThis is a CRM system built using ERP framework.",
+                "file_url": "https://github.com/idurar/idurar-erp-crm/blob/main/README.md"
+            },
+            {
+                "file_name": "src/main.py",
+                "document_type": "py",
+                "content": "def main():\n    print('Hello, World!')\n\nif __name__ == '__main__':\n    main()",
+                "file_url": "https://github.com/idurar/idurar-erp-crm/blob/main/src/main.py"
+            }
+        ]
+    },
+    {
+        "repository_url": "https://github.com/nz-m/SocialEcho",
+        "files": [
+            {
+                "file_name": "index.html",
+                "document_type": "html",
+                "content": "<html><head><title>Social Echo</title></head><body><h1>Welcome to Social Echo</h1></body></html>",
+                "file_url": "https://github.com/nz-m/SocialEcho/blob/main/index.html"
+            },
+            {
+                "file_name": "src/app.js",
+                "document_type": "js",
+                "content": "console.log('Social Echo App Started');",
+                "file_url": "https://github.com/nz-m/SocialEcho/blob/main/src/app.js"
+            }
+        ]
+    },
+    {
+        "repository_url": "https://github.com/WaftTech/WaftEngine",
+        "files": [
+            {
+                "file_name": "engine.cpp",
+                "document_type": "cpp",
+                "content": "#include <iostream>\n\nint main() {\n    std::cout << 'Wafth Engine' << std::endl;\n    return 0;\n}",
+                "file_url": "https://github.com/WaftTech/WaftEngine/blob/main/engine.cpp"
+            }
+        ]
+    }
+]

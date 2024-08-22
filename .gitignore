@@ -1,0 +1,13 @@
+#ignore directory guia
+/guia
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore environment files
+.env
+
+
+/repo_content.json
