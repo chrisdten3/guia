@@ -2,6 +2,7 @@ from langchain_community.embeddings.ollama import OllamaEmbeddings
 from langchain_community.embeddings.bedrock import BedrockEmbeddings
 from langchain_openai import OpenAIEmbeddings
 from langchain_nomic import NomicEmbeddings
+from sentence_transformers import SentenceTransformer
 
 def get_embedding_function(embeddingType: str):
     """Returns an instance of the embedding class based on the embeddingType."""
@@ -10,7 +11,8 @@ def get_embedding_function(embeddingType: str):
         'bedrock': BedrockEmbeddings,
         'ollama': OllamaEmbeddings,
         'openai': OpenAIEmbeddings,
-        'nomic':NomicEmbeddings
+        'nomic':NomicEmbeddings,
+        'instructor': SentenceTransformer
     }
 
     # Check if the provided embeddingType is valid
@@ -26,6 +28,5 @@ def get_embedding_function(embeddingType: str):
         return embedding_map[embeddingType]()
     elif embeddingType == 'nomic':
         return embedding_map[embeddingType](model="nomic-embed-text-v1.5", inference_mode="local")
-
-
-
+    elif embeddingType == 'instructor':
+        return embedding_map[embeddingType]("hkunlp/instructor-large")

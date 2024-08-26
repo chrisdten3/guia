@@ -1,13 +1,14 @@
 import argparse
 import os
 import shutil
+import json
+from concurrent.futures import ThreadPoolExecutor
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema.document import Document
 from get_embeddings_function import get_embedding_function
-from langchain_community.document_loaders import PyPDFDirectoryLoader, WebBaseLoader
 from langchain_chroma import Chroma
-import json
-
+import time
+import hashlib
 
 CHROMA_PATH = "chroma"
 DATA_PATH = "data"
@@ -22,47 +23,15 @@ def main():
         print("✨ Resetting database...")
         clear_database()
 
-    #documents = load_documents(args.urls)
-    documents = load_documents_from_json("test_repo_content.json")
-    chunks = split_documents(documents)
+
+
+    #documents = load_documents()
+    documents = load_documents_from_json("repo_content.json")
+    chunks = split_documents_parallel(documents)
     add_to_chroma(chunks)
 
-def load_documents_from_json(json_file: str) -> list[Document]:
-    """Load JSON documents from a JSON file and convert them to LangChain Document objects."""
-    documents = []
-    print(f"Loading documents from {json_file}...")
 
-    try:
-        with open(json_file, 'r') as f:
-            data = json.load(f)
-        
-        # Ensure the data is a list of repository entries
-        if isinstance(data, list):
-            for entry in data:
-                repo_url = entry.get('repository_url')
-                files = entry.get('files', [])
-                
-                for file_info in files:
-                    document = Document(
-                        page_content=file_info.get('content'),
-                        metadata={
-                            'file_name': file_info.get('file_name'),
-                            'document_type': file_info.get('document_type'),
-                            'file_url': file_info.get('file_url'),
-                            'repository_url': repo_url
-                        }
-                    )
-                    documents.append(document)
-            return documents
-        else:
-            print(f"Unexpected JSON structure: {data}")
-
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {e}")
-    except FileNotFoundError:
-        print(f"File not found: {json_file}")
-    except Exception as e:
-        print(f"An error occurred: {e}")
+"""
 
 def load_documents(urls: list[str] = None) -> list[Document]:
     """Load PDF documents from a directory and optionally from URLs."""
@@ -82,64 +51,104 @@ def load_documents(urls: list[str] = None) -> list[Document]:
 
     return documents
 
-def split_documents(documents: list[Document]) -> list[Document]:
-    """Split documents into smaller text chunks."""
-    text_splitter = RecursiveCharacterTextSplitter( 
-    # Use tiktoken_encoder to split text by token count, ensuring chunks fit model limits. 
-    # Use if your model has token constraints; 
-    # otherwise, character-based splitting may be enough.
-        chunk_size=800,
-        chunk_overlap=80,
-        length_function=len
-    )
-    return text_splitter.split_documents(documents)
+    """
 
-def add_to_chroma(chunks: list[Document]):
-    """Add new document chunks to the Chroma database."""
+def load_documents_from_json(json_file: str) -> list[Document]:
+    """Load JSON documents from a JSON file and convert them to LangChain Document objects."""
+    documents = []
+    print(f"Loading documents from {json_file}...")
+
+    allowed_extensions = ('.js', '.ts', '.py', '.cpp', '.java', '.md', '.ipynb', '.txt')
+
+    try:
+        with open(json_file, 'r') as f:
+            data = json.load(f)
+        
+        for entry in data:
+            repo_url = entry.get('repository_url')
+            files = entry.get('files', [])
+            
+            for file_info in files:
+                file_name = file_info['file_name']
+
+                # Process only files with allowed extensions
+                if file_name.endswith(allowed_extensions):
+                    document = Document(
+                        page_content=file_info['content'],
+                        metadata={
+                            'file_name': file_name,
+                            'document_type': file_info.get('document_type'),
+                            'file_url': file_info.get('file_url'),
+                            'repository_url': repo_url
+                        }
+                    )
+                    documents.append(document)
+        
+    except (json.JSONDecodeError, FileNotFoundError) as e:
+        print(f"Error loading JSON file: {e}")
+    
+    return documents
+
+
+def split_documents_parallel(documents: list[Document]) -> list[Document]:
+    """Split documents into smaller text chunks using parallel processing."""
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=5000,
+        chunk_overlap=100,
+        length_function=len,
+        separators=["\n\n", "\n", " ", ""],
+    )
+
+    chunks = []
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(text_splitter.split_documents, [doc]) for doc in documents]
+        for future in futures:
+            chunks.extend(future.result())
+    return chunks
+
+def add_to_chroma(chunks: list[Document], batch_size: int = 100):
+    """Add new document chunks to the Chroma database in batches with progress tracking."""
     db = Chroma(
         persist_directory=CHROMA_PATH,
         embedding_function=get_embedding_function("nomic")
     )
 
     chunks_with_ids = calculate_chunk_ids(chunks)
-
-    existing_ids = set(db.get()["ids"]) #query database for chunk metadata
+    existing_ids = set(db.get()["ids"])
     print(f"Existing documents in DB: {len(existing_ids)}")
 
-    #filter out redunndant chunks in new entry
     new_chunks = [chunk for chunk in chunks_with_ids if chunk.metadata["id"] not in existing_ids]
+    total_new_chunks = len(new_chunks)
 
-    if new_chunks:
-        print(f"👉 Adding {len(new_chunks)} new documents.")
-        new_chunk_ids = [chunk.metadata["id"] for chunk in new_chunks]
-        db.add_documents(new_chunks, ids=new_chunk_ids)
-        #db.persist() ##deprecated
-    else:
-        print("✅ No new documents to add.")
+    if total_new_chunks:
+        print(f"👉 Adding {total_new_chunks} new documents.")
+        
+        # Add documents in batches
+        for i in range(0, total_new_chunks, batch_size):
+            batch_chunks = new_chunks[i:i + batch_size]
+            batch_chunk_ids = [chunk.metadata["id"] for chunk in batch_chunks]
+            
+            db.add_documents(batch_chunks, ids=batch_chunk_ids)
+            
+            # Print progress
+            processed = i + len(batch_chunks)
+            print(f"Added {processed}/{total_new_chunks} documents.")
+            time.sleep(0.1)  # Optional: Add a small sleep to reduce strain on the DB
+
+        print("✅ All documents added.")
 
 def calculate_chunk_ids(chunks: list[Document]) -> list[Document]:
-    """Generate unique IDs for document chunks based on their source and page.
-    Each chunk ID combines the source, page, and a chunk index to ensure uniqueness.
-    """
-    last_page_id = None  # To keep track of the previous page's ID for indexing
-    current_chunk_index = 0  # Index for chunking on the same page
+    """Generate unique IDs for document chunks."""
+    for chunk_index, chunk in enumerate(chunks):
+        source = chunk.metadata.get("repository_url", "")
+        file_name = chunk.metadata.get("file_name", "")
+        chunk_content = chunk.page_content
 
-    for chunk in chunks:
-        # Extract source and page metadata from the chunk
-        source = chunk.metadata.get("source")
-        page = chunk.metadata.get("page")
-        # Create a unique identifier for the current page
-        current_page_id = f"{source}:{page}"
+        # Create a unique hash for the chunk content
+        content_hash = hashlib.md5(chunk_content.encode('utf-8')).hexdigest()
 
-        # Check if the current page is the same as the previous one
-        if current_page_id == last_page_id:
-            current_chunk_index += 1  # Increment index for chunks on the same page
-        else:
-            current_chunk_index = 0  # Reset index for new pages
-
-        # Assign a unique ID to the chunk combining page ID and chunk index
-        chunk.metadata["id"] = f"{current_page_id}:{current_chunk_index}"
-        last_page_id = current_page_id  # Update last_page_id to current
+        # Generate a unique ID using the repository URL, file name, chunk index, and content hash
+        chunk.metadata["id"] = f"{source}:{file_name}:{chunk_index}:{content_hash}"
 
     return chunks
 
@@ -148,10 +157,7 @@ def clear_database():
     """Remove the existing Chroma database directory."""
     if os.path.exists(CHROMA_PATH):
         shutil.rmtree(CHROMA_PATH)
-        print(f"🗑️  Cleared database at {CHROMA_PATH}.")
+        print(f"🗑️ Cleared database at {CHROMA_PATH}.")
 
 if __name__ == "__main__":
     main()
-
-# metdata in chroma.sqlite3 file
-# actual embeddings inside .bin files

@@ -21,7 +21,7 @@
         "files": [
             {
                 "file_name": "index.html",
-                "document_type": "html",
+                "document_type": "htm,l",
                 "content": "<html><head><title>Social Echo</title></head><body><h1>Welcome to Social Echo</h1></body></html>",
                 "file_url": "https://github.com/nz-m/SocialEcho/blob/main/index.html"
             },
