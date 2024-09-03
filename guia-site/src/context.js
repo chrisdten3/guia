@@ -1,12 +1,13 @@
-import React, {createContext, useState} from 'react'; 
+import React, { createContext, useState } from 'react';
 
-export const Context = createContext()
+export const Context = createContext();
 
-export const ContextProvider = ({children})=> {
-    const [url, setUrl] = useState('')
+export const ContextProvider = ({ children }) => {
+    const [currentRepo, setCurrentRepo] = useState('');
+
     return (
-        <Context.Provider value={{ url, setUrl}}>
+        <Context.Provider value={{ currentRepo, setCurrentRepo }}>
             {children}
         </Context.Provider>
     );
-}
+};

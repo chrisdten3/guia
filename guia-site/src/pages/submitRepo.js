@@ -9,12 +9,17 @@ const SubmitRepo = () => {
 
     const handleSubmit = async () => {
         if (repoLink) {
+            if (!repoLink.includes('/')) {
+                alert('Please enter the repository in the format "owner/repo".');
+                return;
+            }
             // Simulate submitting the GitHub repo link
             setCurrentRepo(repoLink)
             //send URL to api
-            await fetch('http://localhost:3000/api/repo'); 
             console.log(`Submitted GitHub Repo: ${repoLink}`);
             setMessage('GitHub repository submitted successfully!');
+            //link to overview page
+            window.location.href = '/overview';
         } else {
             setMessage('Please enter a valid GitHub repository link.');
         }
@@ -26,7 +31,7 @@ const SubmitRepo = () => {
                 <h1 className="submit-title">Submit GitHub Repository</h1>
                 <input 
                     type="text" 
-                    placeholder="Enter GitHub repository link" 
+                    placeholder="Enter GitHub repo in format owner/repo" 
                     className="submit-input" 
                     value={repoLink}
                     onChange={(e) => setRepoLink(e.target.value)}

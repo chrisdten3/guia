@@ -18,6 +18,9 @@ const LandingPage = () => {
         <Link to="/code-reader">
           <button className="landing-button">Go to Code Reader</button>
         </Link>
+        <Link to="/repo">
+          <button className="landing-button">Submit a Repo</button>
+        </Link>
       </div>
     </div>
   );

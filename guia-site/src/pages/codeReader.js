@@ -35,6 +35,7 @@ const CodeReader = () => {
 
         try {
             const response = await fetch(`https://api.github.com/repos/${repoLink}/contents`);
+            console.log(`https://api.github.com/repos/${repoLink}/contents`);
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }

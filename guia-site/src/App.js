@@ -5,6 +5,7 @@ import LandingPage from './pages/landingPage'; // Import the LandingPage compone
 import Home from './pages/home';
 import SubmitRepo from './pages/submitRepo';
 import { ContextProvider} from './context';
+import CodeReader from './pages/codeReader';
 
 function App() {
   return (
@@ -12,8 +13,10 @@ function App() {
       <div className="App">
         <div className='bg-white'>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<LandingPage />} />
             <Route path="/repo" element={<SubmitRepo/>} />
+            <Route path="/code-reader" element={<CodeReader/>} />
+            <Route path="/home" element={<Home />} />
           </Routes>
         </div>
       </div>
