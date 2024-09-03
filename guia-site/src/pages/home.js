@@ -6,14 +6,18 @@ const Home = () => {
     const [query, setQuery] = useState('');
     const [data, setData] = useState('');
 
+    
+
     useEffect(() => {
         const fetchData = async () => {
-            const query = encodeURIComponent("What is social echo?");
-            console.log(query);
-            const response = await fetch(`http://localhost:8000/api?query=${query}`);
-            const data = await response.json();
-            console.log(data);
-            setData(data.response); // Assuming the API returns { response: "..." }
+            //const query = encodeURIComponent("What is social echo?");
+            //const response = await fetch(`http://localhost:8000/api?query=${query}`);
+            //const data = await response.json();
+            const fakeResponse = {
+                response: "Social echo refers to the amplification and dissemination of information across social media platforms, often leading to widespread visibility and influence."
+            };
+            setData(data.response); 
+            //setData(fakeResponse.data); 
         }
         fetchData();
     }, []);

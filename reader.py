@@ -63,12 +63,8 @@ def main(urls, output_file):
         print(f"Processing {url}")
         repo_data = get_files_from_github_repo(url)
         all_repos_data.append(repo_data)
-
-    # Save the collected data to a JSON file
-    with open(output_file, 'w') as f:
-        json.dump(all_repos_data, f, indent=4)
-
-    print(f"File content saved to {output_file}")
+        
+    return all_repos_data
 
 if __name__ == "__main__":
     # List of GitHub repository URLs

@@ -3,19 +3,22 @@ import './App.css';
 import { Routes, Route } from "react-router-dom";
 import LandingPage from './pages/landingPage'; // Import the LandingPage component
 import Home from './pages/home';
-import CodeReader from './pages/codeReader'; // Import the CodeReader component
+import SubmitRepo from './pages/submitRepo';
+import { ContextProvider} from './context';
 
 function App() {
   return (
-    <div className="App">
-      <div className='bg-white'>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/code-reader" element={<CodeReader />} />
-        </Routes>
+    <ContextProvider>
+      <div className="App">
+        <div className='bg-white'>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/repo" element={<SubmitRepo/>} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </ContextProvider>
+
   );
 }
 

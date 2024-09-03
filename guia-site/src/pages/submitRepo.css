@@ -1,0 +1,72 @@
+/* Container to center everything in the middle of the screen */
+.submit-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #111;
+}
+
+/* Main box containing the form */
+.submit-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1d1d1d;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* Title styling */
+.submit-title {
+    color: #ffffff;
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+/* Input field styling */
+.submit-input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+/* Submit button styling */
+.submit-button {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #666;
+    color: #fff;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+/* Hover effect for the button */
+.submit-button:hover {
+    background-color: #888;
+}
+
+/* Message box styling */
+.submit-message {
+    margin-top: 20px;
+    background-color: #2a2a2a;
+    padding: 10px;
+    border-radius: 5px;
+    color: #f2f2f2;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+}
