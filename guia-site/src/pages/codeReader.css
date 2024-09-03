@@ -46,7 +46,8 @@ h1, h2 {
 
 .files-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 100%; /* Ensure the files container takes up the full width */
+    overflow: auto; /* Enable scrolling if the content overflows */
 }
 
 .file {
@@ -70,10 +71,23 @@ h1, h2 {
     color: #dcdcdc; /* Light text color for code */
     padding: 20px; /* Padding inside the code output area */
     border-radius: 5px;
-    overflow-x: auto;
-    white-space: pre-wrap;
+    overflow-x: auto; /* Enable horizontal scrolling for long lines of code */
+    white-space: pre; /* Preserve whitespace and prevent wrapping */
     margin-top: 20px; /* Space above the code output area */
     font-family: 'Courier New', Courier, monospace;
     font-size: 0.9rem;
     box-sizing: border-box; /* Include padding in the width calculation */
+}
+/* Add styles for the theme selector */
+.theme-selector {
+    margin-bottom: 20px;
+}
+
+.theme-selector select {
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 5px;
+    border: 2px solid #555;
+    background-color: #333;
+    color: #fff;
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { solarizedlight, dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './codeReader.css';
 
 const CodeReader = () => {
@@ -8,6 +8,24 @@ const CodeReader = () => {
     const [files, setFiles] = useState([]);
     const [fileContents, setFileContents] = useState({});
     const [expandedFiles, setExpandedFiles] = useState({});
+    const [theme, setTheme] = useState('light'); // Default theme is light
+
+    const languageMap = {
+        'js': 'javascript',
+        'jsx': 'javascript',
+        'ts': 'typescript',
+        'tsx': 'typescript',
+        'py': 'python',
+        'java': 'java',
+        'cpp': 'cpp',
+        'json':'json'
+        // Add more mappings as needed
+    };
+
+    const getFileLanguage = (filename) => {
+        const extension = filename.split('.').pop();
+        return languageMap[extension] || 'plaintext'; // Default to plaintext if the extension is not mapped
+    };
 
     const fetchRepoContents = async () => {
         if (!repoLink.includes('/')) {
@@ -68,6 +86,14 @@ const CodeReader = () => {
         }));
     };
 
+    const handleThemeChange = (event) => {
+        setTheme(event.target.value);
+    };
+
+    const getSyntaxHighlighterStyle = () => {
+        return theme === 'light' ? solarizedlight : dracula;
+    };
+
     return (
         <div className="code-reader-container">
             <h1>Code Reader</h1>
@@ -79,6 +105,13 @@ const CodeReader = () => {
                 className="repo-input" 
             />
             <button onClick={fetchRepoContents} className="submit-button">Fetch Files</button>
+            <div className="theme-selector">
+                <label htmlFor="theme">Select Theme: </label>
+                <select id="theme" onChange={handleThemeChange} value={theme}>
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+            </div>
             <div className="files-container">
                 {Object.keys(fileContents).length > 0 && (
                     Object.keys(fileContents).map((filename, index) => (
@@ -90,7 +123,7 @@ const CodeReader = () => {
                                 </span>
                             </h2>
                             {expandedFiles[filename] && (
-                                <SyntaxHighlighter language="javascript" style={solarizedlight}>
+                                <SyntaxHighlighter language={getFileLanguage(filename)} style={getSyntaxHighlighterStyle()}>
                                     {fileContents[filename]}
                                 </SyntaxHighlighter>
                             )}
