@@ -1,21 +1,22 @@
 import requests
-import json
-import argparse
 
-# Replace 'YOUR_GITHUB_TOKEN' with your actual GitHub personal access token
-GITHUB_TOKEN = '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'
+github_access_token = "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"
+
 
 def get_repo_files_with_content(owner, repo, path=""):
-    url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
-    headers = {'Authorization': f'token {GITHUB_TOKEN}'}
+    url = f"https://api.github.com/repos/{owner}/{repo}/contents"
+
+    headers = {'Authorization': f'token {github_access_token}'}
     response = requests.get(url, headers=headers)
-    response.raise_for_status()
+    #response.raise_for_status()
 
     files = []
     data = response.json()
 
     for item in data:
         if item['type'] == 'file':
+            if not item['name'].endswith(('.md', '.py', '.js', '.ts', '.html', '.css', '.json', '.yml', '.yaml', '.txt')):
+                continue
             file_name = item['name']
             file_content = get_file_content(item['download_url'])
             file_info = {
@@ -56,32 +57,9 @@ def get_files_from_github_repo(github_url):
     
     return output_data
 
-def main(urls, output_file):
-    all_repos_data = []
-
-    for url in urls:
-        print(f"Processing {url}")
-        repo_data = get_files_from_github_repo(url)
-        all_repos_data.append(repo_data)
-        
-    return all_repos_data
+def main(): 
+    example_url = 'chrisdten3/charts'
+    print(get_files_from_github_repo(example_url))
 
 if __name__ == "__main__":
-    # List of GitHub repository URLs
-    urls = [
-        "https://github.com/idurar/idurar-erp-crm",
-        "https://github.com/nz-m/SocialEcho",
-        "https://github.com/WaftTech/WaftEngine",
-        "https://github.com/foyzulkarim/mernboilerplate-antd",
-        "https://github.com/ujjalacharya/dhan-gaadi",
-        "https://github.com/orifmilod/iCinema",
-        "https://github.com/Ujjalzaman/Doctor-Appointment",
-        "https://github.com/raj074/mern-social-media",
-        "https://github.com/amand33p/reddish",
-        "https://github.com/rupomsoft/mern-x",
-        "https://github.com/shakilhasan/sabil"
-    ]
-    
-    output_file = "repo_content.json"
-
-    main(urls, output_file)
+    main()

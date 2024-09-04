@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './submitRepo.css'; // New CSS file for this specific page
 import { Context } from '../context';
 
 const SubmitRepo = () => {
     const [repoLink, setRepoLink] = useState('');
     const [message, setMessage] = useState('');
-    const {currentRepo, setCurrentRepo} = useContext(Context); 
+    const { setCurrentRepo } = useContext(Context);
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleSubmit = async () => {
         if (repoLink) {
@@ -14,12 +16,11 @@ const SubmitRepo = () => {
                 return;
             }
             // Simulate submitting the GitHub repo link
-            setCurrentRepo(repoLink)
-            //send URL to api
+            setCurrentRepo(repoLink);
             console.log(`Submitted GitHub Repo: ${repoLink}`);
             setMessage('GitHub repository submitted successfully!');
-            //link to overview page
-            window.location.href = '/overview';
+            // Navigate to the overview page
+            navigate('/overview');
         } else {
             setMessage('Please enter a valid GitHub repository link.');
         }

@@ -1,0 +1,44 @@
+/* Overview Container */
+.overview-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #111; /* Light background color for contrast */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Overview Box */
+.overview-box {
+    background-color: #222; /* White background for the box */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    padding: 20px;
+    max-width: 600px;
+    width: 100%;
+    text-align: center; /* Center-align text */
+}
+
+/* Title */
+.overview-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #999; /* Dark grey text color */
+    margin: 0 0 20px; /* Margin at the bottom for spacing */
+}
+
+/* Data Display Section */
+.data-display {
+    margin-top: 20px;
+}
+
+/* Optional: Add a loader or message styles */
+.loader {
+    font-size: 18px;
+    color: #666666;
+}
+
+.error-message {
+    color: #d9534f; /* Red color for errors */
+}
