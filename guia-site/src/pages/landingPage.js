@@ -1,29 +1,31 @@
-// LandingPage.js
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-
-import './landingPage.css'; // Create this CSS file for styling
+import './landingPage.css';
+import image from '../assets/abstract-binary-code-white-clean-background-copyspace-left_215274-1167.avif';
 
 const LandingPage = () => {
   return (
     <div className="landing-page">
-    <div ><h1>Welcome to Guia</h1>
-    <h2>A smarter codebase.</h2></div>
-      
-      <div className="button-container">
-        <Link to="/home">
-          <button className="landing-button">Go to GuiaBot</button>
-        </Link>
-        <Link to="/code-reader">
-          <button className="landing-button">Go to Code Reader</button>
-        </Link>
-        <Link to="/repo">
-          <button className="landing-button">Submit a Repo</button>
-        </Link>
+      <div className="content-container">
+        <div className="text-content">
+          <h1>Your smartest path to onboarding</h1>
+          <p className="subtext">Understand your codebase effortlessly, and onboard developers in record time.</p>
+        </div>
+        <div className="button-container">
+          <Link to="/repo">
+            <button className="landing-button">Get Started For Free</button>
+          </Link>
+          <Link to="/aboutus">
+            <button className="landing-button contact-button">About Us</button>
+          </Link>
+        </div>
+      </div>
+      <div className="graphic-container">
+        {/* You can include a background graphic or abstract design */}
       </div>
     </div>
   );
-}
+};
 
 export default LandingPage;
+

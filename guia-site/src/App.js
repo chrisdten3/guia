@@ -7,18 +7,22 @@ import SubmitRepo from './pages/submitRepo';
 import { ContextProvider} from './context';
 import CodeReader from './pages/codeReader';
 import Overview from './pages/overview';
+import NavBar from './pages/navbar';
+import AboutUs from './pages/aboutus';
 
 function App() {
   return (
     <ContextProvider>
       <div className="App">
         <div className='bg-white'>
+          <NavBar />
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/repo" element={<SubmitRepo/>} />
             <Route path="/code-reader" element={<CodeReader/>} />
             <Route path="/home" element={<Home />} />
             <Route path="/overview" element={<Overview />} />
+            <Route path="/aboutus" element={<AboutUs />} />
           </Routes>
         </div>
       </div>

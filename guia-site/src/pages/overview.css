@@ -1,44 +1,85 @@
-/* Overview Container */
+/* Container for the entire overview section */
+/*.overview-page {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%; /* Fill the entire width of the screen 
+    height: 100vh; /* Fill the entire height of the screen 
+} */
 .overview-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #111; /* Light background color for contrast */
+    flex-direction: column;
+    align-items: flex-start;
     padding: 20px;
-    box-sizing: border-box;
+    width: 20%; /* Fill the entire width of the screen */
+    height: 100vh; /* Fill the entire height of the screen */
+    color: #333; /* Dark text for better readability */
+    font-family: 'YourFontFamily', sans-serif; /* Replace 'YourFontFamily' with the actual font used on other pages */
+    margin-top: 60px; /* Adjust this value as needed */
 }
 
-/* Overview Box */
-.overview-box {
-    background-color: #222; /* White background for the box */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    padding: 20px;
-    max-width: 600px;
+/* Header displaying the repository name */
+.repo-header {
     width: 100%;
-    text-align: center; /* Center-align text */
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e5e7eb; /* Light grey bottom border */
+    margin-bottom: 20px;
 }
 
-/* Title */
-.overview-title {
+.repo-header h2 {
     font-size: 24px;
     font-weight: 600;
-    color: #999; /* Dark grey text color */
-    margin: 0 0 20px; /* Margin at the bottom for spacing */
+    color: #1f2937; /* Slightly darker text for the header */
 }
 
-/* Data Display Section */
-.data-display {
-    margin-top: 20px;
+/* Container for file sections aligned vertically */
+.file-sections {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 100%; 
+    height: calc(100vh - 100px); /* Adjust height to fill the screen */
 }
 
-/* Optional: Add a loader or message styles */
-.loader {
+/* Styling for each file section (frontend, backend, microservices) */
+.file-section {
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #f9fafb; /* Light background color for contrast */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.file-section:last-child {
+    margin-bottom: 0; /* Remove bottom margin from the last section */
+}
+
+/* Title for each file section */
+.file-section h3 {
     font-size: 18px;
-    color: #666666;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: #000000; /* Light blue for section headers */
 }
 
-.error-message {
-    color: #d9534f; /* Red color for errors */
+/* Styling for the list of files */
+.file-list p {
+    font-size: 16px;
+    padding: 8px 0;
+    margin: 0;
+    border-bottom: 1px solid #e5e7eb; /* Light grey bottom border */
+    color: #333; /* Dark text for file names */
+}
+
+.file-list p:last-child {
+    border-bottom: none; /* Remove border from the last file in the list */
+}
+
+/* Hover effect for file sections */
+.file-section:hover {
+    background-color: #e5e7eb; /* Light grey background on hover */
+    transform: scale(1.02); /* Slightly increase size for emphasis */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Increase shadow for a more prominent effect */
 }

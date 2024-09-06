@@ -3,6 +3,7 @@ from langchain.prompts import ChatPromptTemplate
 from get_embeddings_function import get_embedding_function
 
 
+
 PROMPT_TEMPLATE = """
 Describe the following coding project according to the following structure and return it in a json structure. Use only the files given in context:
 
