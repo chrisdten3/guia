@@ -1,11 +1,27 @@
 /* Container for the entire overview section */
-/*.overview-page {
+.overview-page {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    width: 100%; /* Fill the entire width of the screen 
-    height: 100vh; /* Fill the entire height of the screen 
-} */
+    width: 100%; /* Fill the entire width of the screen */
+    position: relative; /* Set relative positioning for the parent container */
+}
+
+/* Align .component-box to the right and center of the screen */
+.component-box {
+    position: absolute; /* Absolute positioning for precise control */
+    right: 0; /* Align to the right */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Adjust the box position to be vertically centered */
+    width: 75%; /* Adjust width as needed */
+    height: 75%; /* Auto height */
+    background-color: #f9fafb; /* Light background color for contrast */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+/* Optional: You can add a specific height or width if required */
 .overview-container {
     display: flex;
     flex-direction: column;

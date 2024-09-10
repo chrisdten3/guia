@@ -4,9 +4,10 @@ import express from 'express';
 import cors from 'cors';
 
 const app = express();
-const PORT = 5006; // Port number for your server
+const PORT = 5000; // Port number for your server
 
-const GITHUB_TOKEN = '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';  // Replace with your GitHub token
+// grab with token in .env
+const GITHUB_TOKEN = process.env.token;
 
 app.use(cors()); // Enable CORS
 
@@ -51,7 +52,7 @@ app.get('/api/github/repo/files', async (req, res) => {
                         'Authorization': `token ${GITHUB_TOKEN}`
                     }
                 }).then(res => res.text());
-
+        
                 const fileInfo = {
                     file_name: item.name,
                     document_type: item.name.split('.').pop(),
@@ -66,7 +67,28 @@ app.get('/api/github/repo/files', async (req, res) => {
                         'Authorization': `token ${GITHUB_TOKEN}`
                     }
                 }).then(res => res.json());
-                files = files.concat(subFiles);
+        
+                // Filter the subFiles by desired file extensions
+                const filteredSubFiles = subFiles.filter(subItem => 
+                    subItem.type === 'file' && subItem.name.match(/\.(md|py|js|ts|html|css|cpp)$/)
+                );
+        
+                // Now, fetch and process the filtered subFiles
+                for (const subItem of filteredSubFiles) {
+                    const fileContent = await fetch(subItem.download_url, {
+                        headers: {
+                            'Authorization': `token ${GITHUB_TOKEN}`
+                        }
+                    }).then(res => res.text());
+        
+                    const fileInfo = {
+                        file_name: subItem.name,
+                        document_type: subItem.name.split('.').pop(),
+                        content: fileContent,
+                        file_url: subItem.html_url
+                    };
+                    files.push(fileInfo);
+                }
             }
         }
 
