@@ -4,11 +4,16 @@
   "main": "server.mjs",
   "type": "module",
   "scripts": {
-    "start": "node server.mjs"
+    "start": "concurrently \"node server.mjs\" \"node hirearchy.mjs\""
   },
   "dependencies": {
+    "axios": "^1.7.7",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
-    "node-fetch": "^3.2.0",
-    "cors": "^2.8.5"
+    "node-fetch": "^3.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
   }
 }

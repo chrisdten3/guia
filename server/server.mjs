@@ -1,18 +1,116 @@
 // server.js
-import fetch from 'node-fetch'; // Import node-fetch as ES Module
 import express from 'express';
 import cors from 'cors';
-
+import axios from 'axios';  // Import axios for HTTP requests
 const app = express();
-const PORT = 5000; // Port number for your server
+const PORT = 5001; // Port number for your server
 
-// grab with token in .env
+// Grab token from environment variables
 const GITHUB_TOKEN = process.env.token;
 
 app.use(cors()); // Enable CORS
 
-// Route to fetch GitHub repo files
 app.get('/api/github/repo/files', async (req, res) => {
+    const { owner, repo, path = '' } = req.query;
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+        const data = response.data;
+        let files = [];
+
+        for (const item of data) {
+            if (item.type === 'file') {
+                if (!item.name.match(/\.(md|py|js|ts|html|css|ipynb|cpp|java)$/)) {
+                    continue;
+                }
+
+                const fileName = item.name;
+                const fileContent = await getFileContent(item.download_url);
+                const fileInfo = {
+                    file_name: fileName,
+                    document_type: getFileType(fileName),
+                    content: fileContent,
+                    file_url: item.html_url  // Add the file sub-link
+                };
+                files.push(fileInfo);
+            } else if (item.type === 'dir') {
+                // Recursively get content of subdirectories
+                const subFiles = await getRepoFilesWithContent(owner, repo, item.path);
+                files = files.concat(subFiles);
+            }
+        }
+
+        res.json({ repository_url: `https://github.com/${owner}/${repo}`, files });
+    } catch (error) {
+        console.error('Error fetching repository files:', error);
+        res.status(500).json({ error: 'Failed to fetch repository files' });
+    }
+});
+
+function getFileType(fileName) {
+    return fileName.split('.').pop();  // Get the file extension as document type
+}
+
+async function getFileContent(fileUrl) {
+    try {
+        const response = await axios.get(fileUrl);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching file content:', error);
+        return '';
+    }
+}
+
+async function getRepoFilesWithContent(owner, repo, path = '') {
+    const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
+    
+    try {
+        const response = await axios.get(url, {
+            headers: {
+                'Authorization': `token ${GITHUB_TOKEN}`,
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        });
+        const data = response.data;
+        let files = [];
+
+        for (const item of data) {
+            if (item.type === 'file') {
+                if (!item.name.match(/\.(md|py|js|ts|html|css|ipynb|cpp|java)$/)) {
+                    continue;
+                }
+
+                const fileName = item.name;
+                const fileContent = await getFileContent(item.download_url);
+                const fileInfo = {
+                    file_name: fileName,
+                    document_type: getFileType(fileName),
+                    content: fileContent,
+                    file_url: item.html_url  // Add the file sub-link
+                };
+                files.push(fileInfo);
+            } else if (item.type === 'dir') {
+                // Recursively get content of subdirectories
+                const subFiles = await getRepoFilesWithContent(owner, repo, item.path);
+                files = files.concat(subFiles);
+            }
+        }
+
+        return files;
+    } catch (error) {
+        console.error('Error fetching repository files:', error);
+        return [];
+    }
+}
+
+// Route to fetch GitHub repo files
+/*app.get('/api/github/repo/files', async (req, res) => {
     const { owner, repo, path = '' } = req.query;
     console.log('owner:', owner, 'repo:', repo);
 
@@ -101,7 +199,7 @@ app.get('/api/github/repo/files', async (req, res) => {
         console.error('Server error:', error);
         res.status(500).json({ error: error.message });
     }
-});3
+}); */
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);

@@ -11,23 +11,23 @@ import { MdOutlineEmail } from "react-icons/md";
 const teamMembers = [
   {
     name: 'Bryan Boateng',
-    email: 'john@example.com',
-    linkedin: 'https://www.linkedin.com/in/johndoe',
-    github: 'https://github.com/johndoe',
+    email: 'bryankboateng@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/bryan-boateng/',
+    github: 'https://github.com/bryankboateng',
     imageUrl: chrisImage, 
   },
   {
     name: 'Christopher Tengey',
-    email: 'jane@example.com',
-    linkedin: 'https://www.linkedin.com/in/janesmith',
-    github: 'https://github.com/janesmith',
+    email: 'cdt50@georgeton.edu',
+    linkedin: 'https://www.linkedin.com/in/christopher-tengey-12555b24a/',
+    github: 'https://github.com/chrisdten3',
     imageUrl: chrisImage,
   },
   {
     name: 'Ali Zia',
-    email: 'alex@example.com',
-    linkedin: 'https://www.linkedin.com/in/alexjohnson',
-    github: 'https://github.com/alexjohnson',
+    email: 'az2741@columbia.edu',
+    linkedin: 'https://www.linkedin.com/in/ali-zia-columbia/',
+    github: 'https://github.com/ziaali455',
     imageUrl: aliImage,
   }
 ];
