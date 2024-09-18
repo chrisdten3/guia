@@ -26,7 +26,7 @@ app.get('/api/github/repo/files', async (req, res) => {
 
         for (const item of data) {
             if (item.type === 'file') {
-                if (!item.name.match(/\.(md|py|js|ts|html|css|ipynb|cpp|java)$/)) {
+                if (!item.name.match(/\.(md|py|js|ts|html|css|cpp|java)$/)) {
                     continue;
                 }
 
