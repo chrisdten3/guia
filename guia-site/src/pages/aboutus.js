@@ -3,7 +3,8 @@ import React from 'react';
 import './aboutus.css';
 import chrisImage from '../assets/1719227847824.jpeg'; 
 import aliImage from '../assets/1702424937724.jpeg'
-//import bryanImage from '../assets/Bryan_Boateng-1.png'
+import moImage from '../assets/1727191368290.jpeg'
+import bryanImage from '../assets/2026.Boateng.Bryan.01.png'
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -11,23 +12,23 @@ import { MdOutlineEmail } from "react-icons/md";
 const teamMembers = [
   {
     name: 'Bryan Boateng',
-    email: 'john@example.com',
-    linkedin: 'https://www.linkedin.com/in/johndoe',
-    github: 'https://github.com/johndoe',
-    imageUrl: chrisImage, 
+    email: 'bryankboateng@gmail.com',
+    linkedin: 'https://www.linkedin.com/in/bryan-boateng/',
+    github: 'https://github.com/bryankboateng',
+    imageUrl: bryanImage, 
   },
   {
     name: 'Christopher Tengey',
-    email: 'jane@example.com',
-    linkedin: 'https://www.linkedin.com/in/janesmith',
-    github: 'https://github.com/janesmith',
+    email: 'cdt50@georgeton.edu',
+    linkedin: 'https://www.linkedin.com/in/christopher-tengey-12555b24a/',
+    github: 'https://github.com/chrisdten3',
     imageUrl: chrisImage,
   },
   {
     name: 'Ali Zia',
-    email: 'alex@example.com',
-    linkedin: 'https://www.linkedin.com/in/alexjohnson',
-    github: 'https://github.com/alexjohnson',
+    email: 'az2741@columbia.edu',
+    linkedin: 'https://www.linkedin.com/in/ali-zia-columbia/',
+    github: 'https://github.com/ziaali455',
     imageUrl: aliImage,
   }
 ];

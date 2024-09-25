@@ -1,4 +1,10 @@
 /* Container for the entire overview section */
+.react-flow {
+    width: 100%;
+    height: 500px; 
+    border: 1px solid black; 
+}
+
 .overview-page {
     display: flex;
     justify-content: space-between;
@@ -19,6 +25,46 @@
     padding: 20px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for a modern look */
     transition: all 0.3s ease-in-out; /* Smooth transition for hover effect */
+}
+
+.tab-navigation {
+    position: absolute; 
+    top: 10px; /* Position near the top */
+    right: 10px; /* Align to the right */
+    display: flex; 
+    gap: 10px; /* Space between buttons */
+}
+
+.tab-navigation button {
+    padding: 10px 20px;
+    background-color: #e2e8f0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.tab-navigation button.active {
+    background-color: #000000;
+    color: #fff;
+}
+
+.tab-navigation button:hover {
+    background-color: #cbd5e1;
+}
+
+.tab-navigation button:focus {
+    outline: none;
+}
+
+h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1rem;
+    color: #4a5568;
 }
 
 /* Optional: You can add a specific height or width if required */
@@ -80,6 +126,11 @@
     color: #000000; /* Light blue for section headers */
 }
 
+.file-list {
+    max-height: 200px; /* Set the height as needed */
+    overflow-y: auto; /* Enable vertical scrolling */
+}
+
 /* Styling for the list of files */
 .file-list p {
     font-size: 16px;
@@ -99,3 +150,5 @@
     transform: scale(1.02); /* Slightly increase size for emphasis */
     box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Increase shadow for a more prominent effect */
 }
+
+
