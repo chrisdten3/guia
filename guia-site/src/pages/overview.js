@@ -1,79 +1,65 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Context } from '../context';
 import './overview.css';
-import {getFileStructure} from '../test';
+import ReactFlow, { MiniMap, Controls, Background} from 'react-flow-renderer';
 
 const Overview = () => {
     const { currentRepo } = useContext(Context); 
-    const [response, setResponse] = useState('');
-    const [activeTab, setActiveTab] = useState('learner'); // Track active tab
-    const repo = {
-        repository_url: "https://github.com/nz-m/SocialEcho",
-        frontend_files: [
-            { file_name: "main.js" },
-            { file_name: "home.js" },
-            { file_name: "contact.js" },
-            { file_name: "apply.js" },
-        ],
-        backend_files: [
-            { file_name: "UserEntity.java" },
-            { file_name: "UserRepositories.java" }
-        ],
-        microservices: ["AWS", "GCP"]
-    };
+    const [activeTab, setActiveTab] = useState('hierarchy'); // Track active tab
+    const [nodes, setNodes] = useState([]);
+    const [edges, setEdges] = useState([]);
+    const [repo, setRepo] = useState({ frontend_files: [], backend_files: []});
 
     useEffect(() => {
         const getOverview = async () => {
             try {
                 const [owner, repo] = currentRepo.split('/');
-                console.log([owner, repo]); 
                 
                 const response = await fetch(`http://localhost:5001/api/github/repo/files?owner=${owner}&repo=${repo}`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 
                 const data = await response.json();
-                console.log('API Response:', data);
 
                 const files = data['files'];
                 console.log('Files:', files);
 
-                findDependencies(files); 
+                const segmentedRepo = segmentFiles(files);
+                setRepo(segmentedRepo);
 
-                //const filesStruct = await getFileStructure(files);
+                const currentDependencies = findDependencies(files); 
 
-                //console.log('here');
+                const { nodes, edges } = buildNodes(currentDependencies);
+                setNodes(nodes);
+                setEdges(edges);
 
-                //console.log('Files Struct:', filesStruct);
-
-                /*const response2 = await fetch('http://localhost:5002/api/github/repo/getStruct', {
-                    method: 'POST', // Use POST for sending data
-                    headers: { 'Content-Type': 'application/json' },
-
-                  });
-
-                if (!response2.ok) throw new Error(`HTTP error! Status: ${response2.status}`);
-
-                const result = await response2.json();
-                console.log('Second API Response:', result); */
-
-            
-                /*const response2 = await fetch('https://tprlocupv3.execute-api.us-east-1.amazonaws.com/dev/ask', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ data }),
-                });
-            
-                if (!response2.ok) throw new Error(`HTTP error! Status: ${response2.status}`);
-                
-                const result = await response2.json();
-                console.log('Second API Response:', result);
-                const scrapedData = extractJsonFromString(result);
-                setResponse(data); */
+                console.log('Nodes:', nodes);
+                console.log('Edges:', edges);
                 
             } catch (error) {
                 console.error('Error:', error);
             }
         };
+
+const segmentFiles = (files) => {
+    const frontendExtensions = ['js', 'html', 'css', 'ts', 'jsx', 'tsx'];
+    const backendExtensions = ['py', 'java', 'rb', 'php', 'go'];
+
+    const segmentedRepo = { frontend_files: [], backend_files: [] };
+
+    files.forEach(file => {
+        const fileExtension = file.file_name.split('.').pop().toLowerCase();
+
+        if (frontendExtensions.includes(fileExtension)) {
+            segmentedRepo.frontend_files.push(file);
+        } else if (backendExtensions.includes(fileExtension)) {
+            segmentedRepo.backend_files.push(file);
+        } else {
+            console.log(`Uncategorized file: ${file.file_name}`);
+        }
+    });
+
+    return segmentedRepo;
+};
 
 // Helper function to remove file extensions
 function getBaseFileName(fileName) {
@@ -136,9 +122,7 @@ function findDependencies(files) {
             }
 
         });
-
-        // Output the dependencies in JSON format
-        console.log(JSON.stringify(dependencies, null, 4));
+        return dependencies;
 }
 
         const extractJsonFromString = (str) => {
@@ -150,6 +134,40 @@ function findDependencies(files) {
                 return null;
             }
         };
+
+        const buildNodes = (data) => {
+            const nodes = [];
+            const edges = [];
+        
+            let xOffset = 100;
+            let yOffset = 100;
+            const xStep = 200;  // horizontal distance between nodes
+            const yStep = 100;  // vertical distance between nodes
+        
+            Object.keys(data).forEach((key, index) => {
+                if (key) {
+                    nodes.push({
+                        id: key,
+                        data: { label: data[key].file_name },
+                        position: { x: xOffset + (index % 5) * xStep, y: yOffset + Math.floor(index / 5) * yStep }
+                    });
+                }
+        
+                // Create edges for dependencies
+                data[key].dependencies.forEach(dep => {
+                    const targetKey = Object.keys(data).find(k => data[k].file_name === dep);
+                    if (targetKey) {
+                        edges.push({
+                            id: `e-${key}-${targetKey}`,
+                            source: key,
+                            target: targetKey,
+                        });
+                    }
+                });
+            });
+            return { nodes, edges };
+        };
+        
 
         getOverview();
     }, []);
@@ -174,25 +192,12 @@ function findDependencies(files) {
                     <div className="file-section">
                         <h3>backend</h3>
                         <div className="file-list">
-                            {repo.backend_files.length > 0 ? (
+                            {repo.backend_files != null ? (
                                 repo.backend_files.map((file, index) => (
                                     <p key={index}>{file.file_name}</p>
                                 ))
                             ) : (
                                 <p>No backend files</p>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="file-section">
-                        <h3>microservices</h3>
-                        <div className="file-list">
-                            {repo.microservices.length > 0 ? (
-                                repo.microservices.map((service, index) => (
-                                    <p key={index}>{service}</p>
-                                ))
-                            ) : (
-                                <p>No microservices</p>
                             )}
                         </div>
                     </div>
@@ -221,8 +226,14 @@ function findDependencies(files) {
                     <div>
                         <h3>Hierarchy View</h3>
                         <p>This section contains hierarchy-specific content...</p>
+                        <ReactFlow 
+                            nodes={nodes} 
+                            edges={edges} 
+                            style={{ width: '100%', height: '65vh' }}>
+                        </ReactFlow>
                     </div>
                 )}
+
                 {activeTab === 'assistant' && (
                     <div>
                         <h3>Assistant View</h3>

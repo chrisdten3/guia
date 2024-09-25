@@ -3,7 +3,8 @@ import React from 'react';
 import './aboutus.css';
 import chrisImage from '../assets/1719227847824.jpeg'; 
 import aliImage from '../assets/1702424937724.jpeg'
-//import bryanImage from '../assets/Bryan_Boateng-1.png'
+import moImage from '../assets/1727191368290.jpeg'
+import bryanImage from '../assets/2026.Boateng.Bryan.01.png'
 import { CiLinkedin } from "react-icons/ci";
 import { FaGithub } from "react-icons/fa";
 import { MdOutlineEmail } from "react-icons/md";
@@ -14,7 +15,7 @@ const teamMembers = [
     email: 'bryankboateng@gmail.com',
     linkedin: 'https://www.linkedin.com/in/bryan-boateng/',
     github: 'https://github.com/bryankboateng',
-    imageUrl: chrisImage, 
+    imageUrl: bryanImage, 
   },
   {
     name: 'Christopher Tengey',

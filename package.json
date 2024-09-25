@@ -3,6 +3,7 @@
     "tailwindcss": "^3.4.10"
   },
   "dependencies": {
+    "@xyflow/react": "^12.3.0",
     "node-fetch": "^3.3.2",
     "react-router": "^6.26.1",
     "react-router-dom": "^6.26.1",
