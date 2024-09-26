@@ -181,7 +181,7 @@ function findDependencies(files) {
 
                 <div className="file-sections">
                     <div className="file-section">
-                        <h3>frontend</h3>
+                        <h3>Frontend</h3>
                         <div className="file-list">
                             {repo.frontend_files.map((file, index) => (
                                 <p key={index}>{file.file_name}</p>
@@ -190,7 +190,7 @@ function findDependencies(files) {
                     </div>
 
                     <div className="file-section">
-                        <h3>backend</h3>
+                        <h3>Backend</h3>
                         <div className="file-list">
                             {repo.backend_files != null ? (
                                 repo.backend_files.map((file, index) => (
@@ -218,14 +218,14 @@ function findDependencies(files) {
                 </div>
                 {activeTab === 'learner' && (
                     <div>
-                        <h3>Learner View</h3>
-                        <p>This section contains learner-specific content...</p>
+                        <h3>Learner</h3>
+                        <p>Ask Guia to build lessons for onboarding an engineer.</p>
                     </div>
                 )}
                 {activeTab === 'hierarchy' && (
                     <div>
-                        <h3>Hierarchy View</h3>
-                        <p>This section contains hierarchy-specific content...</p>
+                        <h3>Hierarchy</h3>
+                        <p>Visualize the codebase at a high level.</p>
                         <ReactFlow 
                             nodes={nodes} 
                             edges={edges} 
@@ -236,8 +236,8 @@ function findDependencies(files) {
 
                 {activeTab === 'assistant' && (
                     <div>
-                        <h3>Assistant View</h3>
-                        <p>This section contains assistant-specific content...</p>
+                        <h3>Assistant</h3>
+                        <p>Ask Guia questions about how the codebase works.</p>
                     </div>
                 )}
             </div>
