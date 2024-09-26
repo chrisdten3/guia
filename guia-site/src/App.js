@@ -10,6 +10,7 @@ import Overview from './pages/overview';
 import NavBar from './pages/navbar';
 import AboutUs from './pages/aboutus';
 import FlowChart from './pages/render';
+import Cases from './pages/cases';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
             <Route path="/overview" element={<Overview />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/flowchart" element={<FlowChart />} />
+            <Route path="/cases" element={<Cases />} /> 
           </Routes>
         </div>
       </div>

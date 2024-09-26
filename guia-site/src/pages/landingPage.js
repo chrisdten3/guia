@@ -13,7 +13,7 @@ const LandingPage = () => {
         </div>
         <div className="button-container">
           <Link to="/repo">
-            <button className="landing-button">Get Started For Free</button>
+            <button className="landing-button">Try a Demo</button>
           </Link>
           <Link to="/aboutus">
             <button className="landing-button contact-button">About Us</button>
@@ -28,4 +28,5 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
+
 
