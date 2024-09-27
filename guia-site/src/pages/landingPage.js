@@ -42,9 +42,6 @@ const LandingPage = () => {
             </Link>
           </div>
         </div>
-        {/* <div className={`text-fade ${fadeInText ? 'fade-in' : ''} ${fadeOutText ? 'fade-out' : ''}`}>
-          <h2 className="fade-text">Teach my new hire about how Spring Boot works in the dashboard project.</h2>
-        </div> */}
       </div>
       {showImage && (
         <div className={`graphic-container ${fadeInImage ? 'fade-in' : ''}`}>
