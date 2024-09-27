@@ -10,10 +10,19 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Move elements up */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Original position */
+  }
+}
+
 .landing-page {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   height: 100vh;
   padding: 0 60px;
   background-color: #f4f4f9;
@@ -22,13 +31,20 @@ body {
 
 .content-container {
   display: flex;
+  flex-direction: row; /* Arrange children in a row */
+  justify-content: space-between; /* Space between left and right halves */
+  width: 100%; /* Full width */
+}
+
+.text-content {
+  display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-start;
   height: 100%;
-  max-width: 600px;
+  max-width: 50%; /* Half the screen width */
   z-index: 2;
   text-align: left;
+  animation: fadeInUp 1s ease-in-out forwards; /* Add fade-in animation */
 }
 
 .text-content h1 {
@@ -49,6 +65,7 @@ body {
   display: flex;
   gap: 25px;
   margin-bottom: 2rem;
+  animation: fadeInUp 1.5s ease-in-out forwards; /* Staggered fade-in animation */
 }
 
 .landing-button {
@@ -69,22 +86,38 @@ body {
   transform: translateY(-2px); /* Slight hover lift effect */
 }
 
-.contact-button {
-  background-color: transparent;
-  border: 2px solid #1a1a1a;
-  color: #1a1a1a;
+.typing-animation {
+  font-size: 1.2rem; /* Adjust font size as needed */
+  color: #1a1a1a; /* Color for the typing animation */
+  white-space: pre-wrap; /* Allow line breaks to be preserved */
+  overflow: hidden; /* Hide overflow */
+  max-width: 50%; /* Limit the width */
+  display: flex; /* Align flex properties */
+  flex-direction: column; /* Stack lines vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Center text within the container */
+  margin-left: auto; /* Push to the left side */
+  margin-right: auto; /* Push to the right side */
 }
 
-.contact-button:hover {
-  background-color: #1a1a1a;
-  color: white;
-  transform: translateY(-2px);
+
+.fade-out {
+  animation: fadeOut 1s forwards; /* Fade-out animation */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0; /* Fade to transparent */
+  }
 }
 
 .graphic-container {
   width: 45%;
   height: 100%;
-  /*background: url('/path/to/graphic.png'); /* Replace with your desired image or pattern */
   background-repeat: no-repeat;
   background-position: center right;
   background-size: contain;
@@ -96,6 +129,7 @@ body {
 
 @media (max-width: 768px) {
   .content-container {
+    flex-direction: column; /* Stack on small screens */
     max-width: 100%;
     padding: 0 20px;
   }
@@ -116,4 +150,60 @@ body {
   .graphic-container {
     display: none;
   }
+}
+/* Existing CSS styles remain here */
+
+.landing-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between left and right content */
+  height: 100vh;
+  padding: 0 60px;
+  background-color: #f4f4f9;
+  position: relative;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row; /* Align children side by side */
+  justify-content: space-between; /* Space between text content and fading text */
+  align-items: center;
+  width: 100%;
+}
+
+.text-content {
+  max-width: 600px; /* Limit width of the main content */
+  z-index: 2; /* Keep content on top */
+  text-align: left;
+}
+
+.text-fade {
+  opacity: 0; /* Start as invisible */
+  transition: opacity 1s ease-in; /* Fade effect */
+  position: absolute; /* Position the text container absolutely */
+  right: 60px; /* Space from the right side */
+  z-index: 2; /* Ensure it’s above other elements */
+}
+
+.graphic-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: opacity 1s ease-in; /* Fade in effect for image */
+}
+
+.graphic-container img {
+  max-width: 100%; /* Responsive image */
+  height: auto;
+  opacity: 0; /* Start as invisible */
+  transition: opacity 1s ease-in; /* Fade in effect */
+}
+
+.fade-in {
+  opacity: 1; /* Make the element visible */
+}
+
+.fade-out {
+  opacity: 0; /* Make the element invisible */
 }

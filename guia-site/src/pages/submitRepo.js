@@ -27,7 +27,8 @@ const SubmitRepo = () => {
     return (
         <div className="submit-container">
             <div className="submit-box">
-                <h1 className="submit-title">Submit a GitHub Repository</h1>
+                <h1 className="submit-title">Submit a GitHub link to your codebase</h1>
+                <h2 className="submit-subtitle">Show Guia your codebase and watch it do its magic.</h2>
                 <input 
                     type="text" 
                     placeholder="Enter GitHub repo in format owner/repo" 

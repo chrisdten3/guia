@@ -340,7 +340,7 @@ function findDependencies(files) {
 
                 <div className="file-sections">
                     <div className="file-section">
-                        <h3>frontend</h3>
+                        <h3>Frontend</h3>
                         <div className="file-list">
                             {repo.frontend_files.map((file, index) => (
                                 <p key={index} onClick={() => handleFileClick(file.file_name)}>
@@ -351,7 +351,7 @@ function findDependencies(files) {
                     </div>
 
                     <div className="file-section">
-                        <h3>backend</h3>
+                        <h3>Backend</h3>
                         <div className="file-list">
                             {repo.backend_files.map((file, index) => (
                                 <p key={index} onClick={() => handleFileClick(file.file_name)}>
@@ -401,8 +401,8 @@ function findDependencies(files) {
                 )}
                 {activeTab === 'assistant' && (
                     <div>
-                        <h3>Assistant View</h3>
-                        <p>This section contains assistant-specific content...</p>
+                        <h3>Assistant</h3>
+                        <p>Ask Guia questions about how the codebase works.</p>
                     </div>
                 )}
             </div>
