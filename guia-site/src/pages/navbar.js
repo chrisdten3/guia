@@ -21,7 +21,8 @@ const NavBar = () => {
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
           <li><a href="/">Home</a></li>
           <li><a href="/aboutus">About</a></li>
-          <li><a href="#services">Services</a></li>
+          <li><a href="#services">Pricing</a></li>
+          <li><a href="/blog">Blog</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
