@@ -34,7 +34,7 @@ const LandingPage = () => {
           <h1>Your smartest path to onboarding.</h1>
           <p className="subtext">Understand your codebase effortlessly, and onboard developers in record time.</p>
           <div className="button-container">
-            <Link to="/repo">
+            <Link to="/cases">
               <button className="landing-button">Try Guia</button>
             </Link>
             <Link to="/aboutus">
