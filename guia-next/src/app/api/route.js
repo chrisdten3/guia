@@ -1,7 +1,7 @@
 import axios from 'axios';  // Import axios for HTTP requests
 
 //const GITHUB_TOKEN = process.env.GITHUB_TOKEN;  // Ensure your token is available as an env variable
-const GITHUB_TOKEN = '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';  // Ensure your token is available as an env variable
+const GITHUB_TOKEN = process.env.token; // Ensure your token is available as an env variable
 
 // Helper function to get file type
 const getFileType = (fileName) => fileName.split('.').pop(); 
