@@ -1,0 +1,100 @@
+/* General styling for a modern, comprehensive, and streamlined UI */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f4f9;
+  color: #1a1a1a;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f9;
+}
+
+.submit-box {
+  background-color: #ffffff;
+  padding: 40px 50px;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 500px;
+}
+
+.submit-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+}
+
+.submit-subtitle {
+  font-size: 1rem;
+  font-weight: 200;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+}
+
+.submit-input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 20px;
+  font-size: 1.25rem;
+  border: 2px solid #1a1a1a;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.submit-input:focus {
+  border-color: #333;
+}
+
+.submit-buttoa {
+  background-color: #1a1a1a;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  width: 100%;
+}
+
+.submit-buttoa:hover {
+  background-color: #333;
+  transform: translateY(-2px);
+}
+
+.submit-message {
+  margin-top: 20px;
+  font-size: 1.15rem;
+  color: rgba(26, 26, 26, 0.75);
+}
+
+@media (max-width: 768px) {
+  .submit-box {
+    padding: 30px 20px;
+  }
+
+  .submit-title {
+    font-size: 2rem;
+  }
+
+  .submit-input {
+    font-size: 1rem;
+    padding: 12px;
+  }
+
+  .submit-button {
+    font-size: 1.15rem;
+  }
+}

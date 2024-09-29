@@ -1,0 +1,209 @@
+/* General styling for a streamlined and modern UI */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f4f9;
+  color: #1a1a1a;
+  overflow-x: hidden;
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(20px); /* Move elements up */
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0); /* Original position */
+  }
+}
+
+.landing-page {
+  display: flex;
+  height: 100vh;
+  padding: 0 60px;
+  background-color: #f4f4f9;
+  position: relative;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row; /* Arrange children in a row */
+  justify-content: space-between; /* Space between left and right halves */
+  width: 100%; /* Full width */
+}
+
+.text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-width: 50%; /* Half the screen width */
+  z-index: 2;
+  text-align: left;
+  animation: fadeInUp 1s ease-in-out forwards; /* Add fade-in animation */
+}
+
+.text-content h1 {
+  font-size: 4rem; /* Larger and bold for emphasis */
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1;
+  color: #1a1a1a;
+}
+
+.subtext {
+  font-size: 1.75rem; /* Increased subtext size */
+  margin-bottom: 2.5rem;
+  color: rgba(26, 26, 26, 0.7);
+}
+
+.button-container {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 2rem;
+  animation: fadeInUp 1.5s ease-in-out forwards; /* Staggered fade-in animation */
+}
+
+.landing-button {
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  padding: 20px 40px; /* Larger buttons */
+  font-size: 1.25rem; /* Increase font size in buttons */
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 6px; /* Modern rounded button edges */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: 0 8px 20px rgba(26, 26, 26, 0.15);
+}
+
+.landing-button:hover {
+  background-color: #333;
+  transform: translateY(-2px); /* Slight hover lift effect */
+}
+
+.typing-animation {
+  font-size: 1.2rem; /* Adjust font size as needed */
+  color: #1a1a1a; /* Color for the typing animation */
+  white-space: pre-wrap; /* Allow line breaks to be preserved */
+  overflow: hidden; /* Hide overflow */
+  max-width: 50%; /* Limit the width */
+  display: flex; /* Align flex properties */
+  flex-direction: column; /* Stack lines vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+  text-align: center; /* Center text within the container */
+  margin-left: auto; /* Push to the left side */
+  margin-right: auto; /* Push to the right side */
+}
+
+
+.fade-out {
+  animation: fadeOut 1s forwards; /* Fade-out animation */
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0; /* Fade to transparent */
+  }
+}
+
+.graphic-container {
+  width: 45%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center right;
+  background-size: contain;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .content-container {
+    flex-direction: column; /* Stack on small screens */
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .text-content h1 {
+    font-size: 2.5rem;
+  }
+
+  .subtext {
+    font-size: 1.25rem;
+  }
+
+  .landing-button {
+    font-size: 1rem;
+    padding: 15px 30px;
+  }
+
+  .graphic-container {
+    display: none;
+  }
+}
+/* Existing CSS styles remain here */
+
+.landing-page {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between left and right content */
+  height: 100vh;
+  padding: 0 60px;
+  background-color: #f4f4f9;
+  position: relative;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: row; /* Align children side by side */
+  justify-content: space-between; /* Space between text content and fading text */
+  align-items: center;
+  width: 100%;
+}
+
+.text-content {
+  max-width: 600px; /* Limit width of the main content */
+  z-index: 2; /* Keep content on top */
+  text-align: left;
+}
+
+.text-fade {
+  opacity: 0; /* Start as invisible */
+  transition: opacity 1s ease-in; /* Fade effect */
+  position: absolute; /* Position the text container absolutely */
+  right: 60px; /* Space from the right side */
+  z-index: 2; /* Ensure it’s above other elements */
+}
+
+.graphic-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  transition: opacity 1s ease-in; /* Fade in effect for image */
+}
+
+.graphic-container img {
+  max-width: 100%; /* Responsive image */
+  height: auto;
+  opacity: 0; /* Start as invisible */
+  transition: opacity 1s ease-in; /* Fade in effect */
+}
+
+.fade-in {
+  opacity: 1; /* Make the element visible */
+}
+
+.fade-out {
+  opacity: 0; /* Make the element invisible */
+}
