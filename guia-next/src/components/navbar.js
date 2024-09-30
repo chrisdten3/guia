@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import './navbar.css'; // Import the CSS for the NavBar
 import Image from 'next/image';
+import Link from 'next/link'; // Import Link from next/link
 
 const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,24 +14,24 @@ const NavBar = () => {
   return (
     <nav>
       <div className="nav-container">
-      <a href="/" className="nav-brand">
-      <Image 
+        <Link href="/" className="nav-brand"> {/* Use Link instead of anchor tag */}
+          <Image 
             src="/guia.png" 
             alt="Guia logo" 
             width={150} // Set the appropriate width
             height={50} // Set the appropriate height
             className="nav-logo" 
           />
-        </a>
+        </Link>
         <button className={`nav-toggle ${isMenuOpen ? 'active' : ''}`} onClick={toggleMenu}>
           &#9776;
         </button>
         <ul className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
-          <li><a href="/">Home</a></li>
-          <li><a href="/aboutus">About</a></li>
-          <li><a href="#services">Pricing</a></li>
-          <li><a href="/blog">Blog</a></li>
-          <li><a href="#contact">Contact</a></li>
+          <li><Link href="/landing">Home</Link></li>
+          <li><Link href="/aboutus">About</Link></li>
+          <li><Link href="/services">Pricing</Link></li>
+          <li><Link href="/blog">Blog</Link></li>
+          <li><Link href="/contact">Contact</Link></li>
         </ul>
       </div>
     </nav>

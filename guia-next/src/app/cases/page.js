@@ -10,7 +10,7 @@ const Cases = () => {
         <div className="text-content">
           <h1 className="main-title">Choose Your Role</h1>
           <p className="subtext">
-            Whether you're managing a team or diving into your workstreams, we offer tools designed specifically to make your onboarding smoother.
+            Whether you are managing a team or diving into your workstreams, we offer tools designed specifically to make your onboarding smoother.
           </p>
         </div>
 

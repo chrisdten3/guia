@@ -1,0 +1,87 @@
+/* chatinterface.css */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 80vh;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #ffffff; /* White background for the chat box */
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    overflow: hidden;
+  }
+  
+  .chat-display {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f4f9; /* Light background for the message area */
+    overflow-y: auto;
+    border-bottom: 1px solid #e0e0e0; /* Light border to separate from input */
+  }
+  
+  .message {
+    margin: 10px 0;
+    padding: 10px 15px;
+    border-radius: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  .user-message {
+    background-color: #007aff; /* Blue background for user messages */
+    color: #ffffff; /* White text for user messages */
+    align-self: flex-end; /* Align user messages to the right */
+  }
+  
+  .bot-message {
+    background-color: #e0e0e0; /* Light gray background for bot messages */
+    color: #1c1c1e; /* Dark gray text for bot messages */
+    align-self: flex-start; /* Align bot messages to the left */
+  }
+  
+  .input-container {
+    display: flex;
+    padding: 10px;
+    background-color: #ffffff; /* White background for the input area */
+    border-top: 1px solid #e0e0e0; /* Light border for separation */
+  }
+  
+  input[type="text"] {
+    flex-grow: 1;
+    padding: 10px;
+    border: none;
+    border-radius: 20px;
+    background-color: #f4f4f9; /* Match the theme with light background */
+    color: #1c1c1e; /* Dark gray text */
+    font-size: 16px;
+    outline: none;
+  }
+  
+  input[type="text"]::placeholder {
+    color: #a1a1a6; /* Placeholder text in light gray */
+  }
+  
+  .submit-text {
+    background-color: #007aff; /* Blue button */
+    color: #ffffff; /* White text */
+    border: none;
+    padding: 10px 20px;
+    margin-left: 10px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .submit-text:hover {
+    background-color: #005bb5; /* Darker blue on hover */
+  }
+  
+  .submit-text:active {
+    background-color: #004080; /* Even darker blue when clicked */
+  }
+  

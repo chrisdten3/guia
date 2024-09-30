@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import {Context} from '../../context';
 import './overview.css';
 import ReactFlow from 'react-flow-renderer';
-
+import ChatInterface from '@/components/chatInterface';
 
 const QuizCard = ({ questions }) => {
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -406,6 +406,7 @@ function findDependencies(files) {
                     <div>
                         <h3>Assistant</h3>
                         <p>Ask Guia questions about how the codebase works.</p>
+                        <ChatInterface />
                     </div>
                 )}
             </div>

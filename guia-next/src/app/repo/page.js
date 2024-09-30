@@ -12,11 +12,11 @@ const ManagerWorkflow = () => {
                 </h2>
                 <p className="manager-description">
                     For <strong>Product Managers</strong>, <strong>Senior Software Engineers</strong>, and <strong>Team Leads</strong>, 
-                    a powerful new workflow is on its way. You'll soon be able to create and assign custom lessons for your codebases to help onboard new engineers more efficiently. 
-                    Whether you're managing a small team or an entire organization, our new tools will help ensure that your engineers get up to speed faster, with personalized onboarding material directly related to your projects.
+                    a powerful new workflow is on its way. You will soon be able to create and assign custom lessons for your codebases to help onboard new engineers more efficiently. 
+                    Whether you are managing a small team or an entire organization, our new tools will help ensure that your engineers get up to speed faster, with personalized onboarding material directly related to your projects.
                 </p>
                 <p className="manager-details">
-                    With this feature, you'll be able to:
+                    With this feature, you will be able to:
                 </p>
                 <ul className="manager-list">
                     <li>Create interactive lessons for your engineers based on your codebase.</li>
