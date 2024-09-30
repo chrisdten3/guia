@@ -391,10 +391,9 @@ function findDependencies(files) {
                 {activeTab === 'hierarchy' && (
                     <div>
                         <h3>Roadmap</h3>
-                        <button onClick={() => setShowDependencies(!showDependencies)}>
+                        <button className='dependency-button' onClick={() => setShowDependencies(!showDependencies)}>
                             {showDependencies ? 'Show All Files' : 'Show Selected File Dependencies'}
                         </button>
-
                         <ReactFlow 
                             nodes={filteredNodes} 
                             edges={filteredEdges} 

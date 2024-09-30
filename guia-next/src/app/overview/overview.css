@@ -5,6 +5,35 @@
     border: 1px solid black; 
 }
 
+.dependency-button {
+    background-color: #000000; /* Primary blue background color */
+    color: white; /* White text */
+    border: none; /* Remove border */
+    padding: 10px 10px; /* Padding for the button */
+    font-size: 1rem; /* Adjust the font size */
+    font-weight: 600; /* Make the text bold */
+    cursor: pointer; /* Change cursor on hover */
+    border-radius: 5px; /* Rounded corners */
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth background and scale transition */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.dependency-button:hover {
+    background-color: #000000; /* Darken background on hover */
+    transform: translateY(-2px); /* Slight lift effect on hover */
+}
+
+.dependency-button:active {
+    background-color: #000000; /* Darker background when clicked */
+    transform: translateY(0); /* Return to normal position */
+}
+
+.dependency-button:focus {
+    outline: none; /* Remove default focus outline */
+    box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.4); /* Custom focus ring for accessibility */
+}
+
+
 .overview-page {
     display: flex;
     justify-content: space-between;
