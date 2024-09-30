@@ -162,6 +162,7 @@ const Overview = () => {
                 //const [owner, repo] = currentRepo.split('/');
                 const owner = 'chrisdten3';
                 const repo = 'charts';
+                console.log('token: ', process.env.token);
                 const response = await fetch(`/api?owner=${owner}&repo=${repo}`);
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './chatinterface.css'; // Add some custom styling
+import './chatInterface.css'; // Add some custom styling
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([]);
