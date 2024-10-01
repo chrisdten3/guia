@@ -3,7 +3,6 @@ import axios from 'axios';  // Import axios for HTTP requests
 
 //const GITHUB_TOKEN = process.env.GITHUB_TOKEN;  // Ensure your token is available as an env variable
 const GITHUB_TOKEN = process.env.token; // Ensure your token is available as an env variable
-
 // Helper function to get file type
 const getFileType = (fileName) => fileName.split('.').pop(); 
 
@@ -21,6 +20,7 @@ const getFileContent = async (fileUrl) => {
 // Recursive function to fetch repository files and contents
 const getRepoFilesWithContent = async (owner, repo, path = '') => {
     console.log(`Fetching files in ${owner}/${repo}/${path}`);
+    console.log({GITHUB_TOKEN}); 
     const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
 
     try {
