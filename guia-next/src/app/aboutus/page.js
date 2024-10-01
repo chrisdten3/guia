@@ -21,7 +21,7 @@ const teamMembers = [
     linkedin: 'https://www.linkedin.com/in/christopher-tengey-12555b24a/',
     github: 'https://github.com/chrisdten3',
     imageUrl: '/1719227847824.jpeg', // Use path relative to public
-    bio: 'Christopher is a junior at Georgetown University, double majoring in Computer Science and Mathematics. With prior experience interning at JP Morgan focused on AI and machine learning, he currently manages analytical projects at Hoyalytics.',
+    bio: 'Christopher is a junior at Georgetown University, double majoring in Computer Science and Mathematics. With prior experience interning at JP Morgan focused on AI and machine learning',
   },
   {
     name: 'Ali Zia',
