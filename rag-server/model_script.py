@@ -22,7 +22,62 @@ from langchain import LLMChain
 from langchain.prompts import PromptTemplate
 from langchain_community.embeddings.bedrock import BedrockEmbeddings
 from langchain_core.prompt_values import StringPromptValue
+from langchain.llms.bedrock import Bedrock
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from botocore.config import Config
 
+retry_config = Config(
+        region_name = 'us-east-1',
+        retries = {
+            'max_attempts': 10,
+            'mode': 'standard'
+        }
+)
+
+
+
+llm = Bedrock(
+        model_id="meta.llama3-8b-instruct-v1:0",
+        client=boto3.client('bedrock-runtime', region_name='us-east-1'),
+        model_kwargs={"top_p": 0, "temperature": 0}  # Remove frequency_penalty and presence_penalty
+    )
+
+class Lesson:
+    def __init__(self, title: str, lesson_duration: int, sources: list[str]):
+        self.title = title
+        self.lesson_duration = lesson_duration
+        self.sources = sources
+        self.questions = []
+
+    def add_question(self, question: dict):
+        """Add a question to the lesson"""
+        self.questions.append(question)
+
+    def __repr__(self):
+        return (f"Lesson(title={self.title}, lesson_duration={self.lesson_duration}, "
+                f"sources={self.sources}, questions={len(self.questions)})")
+
+
+class MultipleChoiceQuestion:
+    def __init__(self, question: str, options: dict, correct_answer: str, rationales: dict):
+        self.question = question
+        self.options = options
+        self.correct_answer = correct_answer
+        self.rationales = rationales
+
+    def __repr__(self):
+        return f"MCQ(question={self.question}, correct_answer={self.correct_answer})"
+
+
+class FreeResponseQuestion:
+    def __init__(self, question: str, answer: str, rationale: str):
+        self.question = question
+        self.answer = answer
+        self.rationale = rationale
+
+    def __repr__(self):
+        return f"FRQ(question={self.question}, answer={self.answer})"
 
 class BedrockLLM:
     def __init__(self, model_id):
@@ -253,20 +308,27 @@ def query_expansion(llm, query):
     print(queries)
     return queries
 
-def relevant_embed(embed_function:str,queries:list[str],k:int) -> list[Document]:
-  vector_store = Chroma(persist_directory=CHROMA_PATH, embedding_function=get_embedding_function(embed_function))
-  embed_list = []
-  # Use all queries from query expansion
-  for query in queries:
-    embed_list.extend(vector_store.similarity_search(query, k=k))
-  # Remove duplicates
-  unique_contents = set()
-  unique_embed = []
-  for doc in embed_list:
-    if doc.page_content not in unique_contents:
-        unique_embed.append(doc)
-        unique_contents.add(doc.page_content)
-  return unique_embed
+def relevant_embed(embed_function: str, queries: list[str], k: int) -> list[Document]:
+    # Initialize Chroma vector store
+    vector_store = Chroma(persist_directory=CHROMA_PATH, embedding_function=get_embedding_function(embed_function))
+    
+    embed_list = []
+    
+    # Perform similarity search for each query
+    for query in queries:
+        # Adjust 'k' as needed to prevent large memory issues
+        embed_list.extend(vector_store.similarity_search(query, k=min(k, 10)))  # Limit 'k' for testing
+    
+    # Remove duplicates based on page content and metadata
+    unique_contents = set()
+    unique_embed = []
+    for doc in embed_list:
+        doc_id = (doc.page_content, doc.metadata.get('source_id', ''))
+        if doc_id not in unique_contents:
+            unique_embed.append(doc)
+            unique_contents.add(doc_id)
+    
+    return unique_embed
 
 
 def rerank_documents(user_question, docs_split, top_k=0):
@@ -384,42 +446,6 @@ def clear_chroma_via_api():
     else:
         print("No documents found in the Chroma database.")
 
-class Lesson:
-    def __init__(self, title: str, lesson_duration: int, sources: list[str]):
-        self.title = title
-        self.lesson_duration = lesson_duration
-        self.sources = sources
-        self.questions = []
-
-    def add_question(self, question: dict):
-        """Add a question to the lesson"""
-        self.questions.append(question)
-
-    def __repr__(self):
-        return (f"Lesson(title={self.title}, lesson_duration={self.lesson_duration}, "
-                f"sources={self.sources}, questions={len(self.questions)})")
-
-
-class MultipleChoiceQuestion:
-    def __init__(self, question: str, options: dict, correct_answer: str, rationales: dict):
-        self.question = question
-        self.options = options
-        self.correct_answer = correct_answer
-        self.rationales = rationales
-
-    def __repr__(self):
-        return f"MCQ(question={self.question}, correct_answer={self.correct_answer})"
-
-
-class FreeResponseQuestion:
-    def __init__(self, question: str, answer: str, rationale: str):
-        self.question = question
-        self.answer = answer
-        self.rationale = rationale
-
-    def __repr__(self):
-        return f"FRQ(question={self.question}, answer={self.answer})"
-
 
 def create_lesson_from_llm_output(output: list[dict], title: str, lesson_duration: int, sources: list[str]):
     lesson = Lesson(title=title, lesson_duration=lesson_duration, sources=sources)
@@ -456,7 +482,7 @@ if __name__ == "__main__":
 
     # Initialize the LLM
     # llm = OpenAI(model_name="text-davinci-003")
-    llm = BedrockLLM(model_id="meta.llama3-8b-instruct-v1:0")
+    #llm = BedrockLLM(model_id="meta.llama3-8b-instruct-v1:0")
 
     # Load and split documents in directory
     documents = load_documents_from_json([data])
@@ -467,7 +493,7 @@ if __name__ == "__main__":
     queries = query_expansion(llm, user_question)
 
     # Retrieve most relevant docs pertaininy to user_question
-    doc_split = relevant_embed("nomic", queries,k=4)
+    doc_split = relevant_embed("nomic", queries,k=5)
 
     # Initialize the cross-encoder used by reranker
     cross_encoder = CrossEncoder('cross-encoder/ms-marco-MiniLM-L-6-v2')
@@ -487,5 +513,14 @@ if __name__ == "__main__":
     #     print(json.dumps(lesson, indent=2))
     #     print("\n---\n")
 
-    print(f"Generated {len(lesson_objects)} lesson objects.")
-    print("Done running main function")
+    lesson = create_lesson_from_llm_output(
+        lesson_objects, title="Server Side Mass Approximation ", lesson_duration=30, sources=["Metadata"]
+    )
+    print(lesson)
+    for q in lesson.questions:
+        print(q)
+
+
+
+
+
